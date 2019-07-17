@@ -1,0 +1,18 @@
+<div class="container" (submit)="onSignUp()">
+  <h1 class="title">Sign Up</h1>
+  <form class="form" [formGroup]="form">
+    <div>
+      <p>Username</p>
+      <input class="input" type="text" placeholder="username" formControlName="username">
+      <p>Full name</p>
+      <input class="input" type="text" placeholder="full name" formControlName="name">
+      <p>Password</p>
+      <input class="input" type="password" placeholder="password" formControlName="password">
+      <p>Confirm password</p>
+      <input class="input" type="password" placeholder="confirm password" formControlName="confirmPassword">
+    </div>
+    <button class="signup-button" type="submit" [disabled]="form.invalid">Sign Up</button>
+  </form>
+</div>
+
+

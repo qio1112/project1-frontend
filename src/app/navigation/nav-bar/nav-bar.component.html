@@ -1,0 +1,12 @@
+<div class="show-container" [@showList]="showState" #sideBar>
+    <!-- [ngClass]="showList ? 'show-container' : 'hide-container'" -->
+  <div class="list" #list>
+    <p><a [routerLink]="'resource'">Resource</a></p>
+    <p><a [routerLink]="'project'">Project</a></p>
+    <p><a [routerLink]="'formula'">Formula</a></p>
+    <p><a>...</a></p>
+  </div>
+  <div class="toggle-button-area" (click)="onChangeShowListStatus()">
+    <img src="assets/images/down-arrow.png" class="toggle-button" [@rotateArrow]="showState">
+  </div>
+</div>

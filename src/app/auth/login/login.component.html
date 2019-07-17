@@ -1,0 +1,25 @@
+<div class="container">
+  <h1 class="title">Login</h1>
+  <form class="form" [formGroup]="form" (submit)="onLogin()">
+    <div>
+      <p>Username</p>
+      <input class="input" type="email" placeholder="email" formControlName="username">
+      <p>Password</p>
+      <input class="input" type="password" placeholder="password" formControlName="password">
+    </div>
+    <button class="login-button" type="submit">Login</button>
+    <div>
+      <input type="checkbox" name="rememberMe">
+      <label for="rememberMe">Remember me</label>
+    </div>
+  </form>
+  <div class="signup-row">
+    <div class="left">
+        <button class="signup-button" [routerLink]="'/signup'">Sign Up</button>
+    </div>
+    <div class="right">
+        <a>Forgot password?</a>
+    </div>
+  </div>
+</div>
+

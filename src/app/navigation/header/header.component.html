@@ -1,0 +1,16 @@
+
+<mat-toolbar class="tool-bar">
+  <div class="icon-area">
+    <img class="icon" src="assets/images/icon.png" alt="icon">
+    <p class="name">Resource Management</p>
+  </div>
+  <!-- <div class="empty"></div> -->
+  <div class="buttons">
+    <div class="user-container" #userInfo>
+        <img class="user" (click)="onClickUserIcon()" src="assets/images/user.svg" alt="user">
+        <app-info-window class="info-window" *ngIf="isAuth && showInfoWindow" [user]="user"></app-info-window>
+    </div>
+
+    <img class="question" src="assets/images/question.svg" alt="question">
+  </div>
+</mat-toolbar>

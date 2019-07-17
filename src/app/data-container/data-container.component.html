@@ -1,0 +1,16 @@
+<div class="container">
+  <app-data-container-bar [name]="name" [mode]="mode"></app-data-container-bar>
+  <form class="form">
+    <table class="table">
+      <tr>
+        <th scope="col">Resource Name</th>
+        <th scope="col">Resource Code</th>
+        <th scope="col" *ngFor="let column of columnNames">{{column}}</th>
+      </tr>
+      <tr *ngFor="let row of dataTable">
+        <td *ngFor="let value of row"><input value={{value}} type="text"></td>
+      </tr>
+    </table>
+
+  </form>
+</div>

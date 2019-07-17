@@ -1,0 +1,112 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: gray;
+  height: 40px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 200px;
+  margin: 0 0 0 10px;
+  padding: 0;
+}
+
+.search-input {
+  height: 30px;
+  width: 150px;
+  border: 0;
+  margin: 0;
+  padding: 0 5px;
+}
+
+.button {
+  height: 30px;
+  width: 30px;
+  background-color: rgb(231, 135, 70);
+  padding: 0;
+  vertical-align: middle;
+}
+
+.svg {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.icon {
+  height: 60%;
+  margin: 0;
+  fill: white;
+}
+
+.name {
+  /* position: relative;
+  left: 25%; */
+  margin: 0 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttons button {
+  margin: 0 10px;
+}
+
+.plus-button-area {
+  position: relative;
+}
+
+.plus-button-area button {
+
+}
+
+.plus-selections {
+  width: 150px;
+  position: absolute;
+  top: 100%;
+  left: -112px;
+  background-color: white;
+  border: 1px rgb(240, 240, 240) solid;
+  box-shadow: 0 0 2px rgb(240, 240, 240);
+  font-size: 12px;
+  color: grey;
+}
+
+.plus-selections p {
+  text-align: left;
+  margin: 10px;
+}
+
+.project-selection-area {
+  position: relative;
+}
+
+.project-selections {
+  width: 120px;
+  height: 70px;
+  text-align: left;
+  position: absolute;
+  top: 100%;
+  left: 10px;
+  z-index: 5;
+  background-color: white;
+  border: 1px rgb(240, 240, 240) solid;
+  box-shadow: 0 0 2px rgb(240, 240, 240);
+  font-size: 12px;
+  color: grey;
+}
+
+.project-selection {
+  margin: 10px;
+  font-size: 12px;
+}
+
