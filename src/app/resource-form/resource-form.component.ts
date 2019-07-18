@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ResourceService } from '../services/resource.service';
 import { Project } from '../models/project.model';
+import { ProjectService } from '../services/project.service';
+import { ProjectData } from '../models/project-data';
 
 @Component({
   selector: 'app-resource-form',
@@ -10,15 +11,18 @@ import { Project } from '../models/project.model';
 export class ResourceFormComponent implements OnInit {
   private projects: Project[];
 
+  private projectData: ProjectData;
+
   constructor(
-    private resourceService: ResourceService
+    private projectService: ProjectService
   ) { }
 
   ngOnInit() {
-    this.resourceService.getAllProjects()
-      .subscribe(result => {
-        console.log(result);
-      });
+    const projectData = this.projectService.getDataByRange(1, 10)
+    .subscribe(result => {
+      this.projectData = result;
+      console.log(this.projectData);
+    });
   }
 
   // onGetProjects() {

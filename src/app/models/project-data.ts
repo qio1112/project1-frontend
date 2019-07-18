@@ -8,12 +8,12 @@ import { Resource } from './resource.model';
 
 export class ProjectData {
   project: Project;
-  dataArray: Data[];
-  resources: Resource[];
+  data: Data[];
+  resource: Resource[];
 
-  constructor (project: Project, dataArray: Data[], resources: Resource[]) {
+  constructor (project: Project, data: Data[], resource: Resource[]) {
     this.project = project;
-    this.dataArray = dataArray;
-    this.resources = resources;
+    this.data = data;
+    this.resource = resource;
   }
 }

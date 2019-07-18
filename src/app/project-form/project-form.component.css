@@ -11,3 +11,12 @@
   padding: 0;
 }
 
+.project-list-area {
+  width: 100%;
+  text-align: right;
+  margin: 0;
+}
+
+.project-list {
+  margin: 20px 10%;
+}

@@ -13,19 +13,52 @@ export class LoginComponent implements OnInit {
 
   private form: FormGroup;
 
+  private loginFailed = false;
+
   constructor(
     private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.form = new FormGroup({
-      username: new FormControl(null, {validators: [Validators.required, Validators.minLength(6)]}),
-      password: new FormControl(null, {validators: [Validators.required]})
+      username: new FormControl(localStorage.getItem('loginUsername'), {validators: [Validators.required]}),
+      password: new FormControl(null, {validators: [Validators.required]}),
+      rememberMe: new FormControl(localStorage.getItem('rememberMe') === 'true')
     });
   }
 
   onLogin() {
-    this.authService.loginUser(new User(this.form.value.username, this.form.value.password, null, null));
+    if (this.form.get('rememberMe').value) {
+      localStorage.setItem('loginUsername', this.form.get('username').value);
+      localStorage.setItem('rememberMe', 'true');
+      console.log('username stored');
+    } else {
+      localStorage.removeItem('loginUsername');
+      localStorage.setItem('rememberMe', 'false');
+      console.log('username removed');
+    }
+    this.authService.loginUser(new User(this.form.value.username, this.form.value.password, null, null),
+      (error) => {
+        if (error.status === 404) {
+          this.form.get('username').setValue(null);
+          this.form.get('password').setValue(null);
+          this.loginFailed = true;
+        }
+      });
   }
 
+  onChangeLoginInput() {
+    this.loginFailed = false;
+  }
+
+  // onClickRememberMe() {
+  //   if (this.form.get('rememberMe').value) {
+  //     localStorage.setItem('loginUsername', this.form.get('username').value);
+  //     localStorage.setItem('rememberMe', 'true');
+  //     console.log('username stored');
+  //   } else {
+  //     localStorage.removeItem('loginUsername');
+  //     console.log('username removed');
+  //   }
+  // }
 }

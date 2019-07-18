@@ -3,15 +3,22 @@
   <form class="form" [formGroup]="form">
     <div>
       <p>Username</p>
-      <input class="input" type="text" placeholder="username" formControlName="username">
+      <input class="input" type="text" placeholder="username" formControlName="username" (change)="onChangeUsernameInput()">
+      <p class="error-message" *ngIf="form.get('username').touched && form.get('username').hasError('minlength')">username should be at least 6 characters</p>
+      <p class="error-message" *ngIf="form.get('username').touched && form.get('username').hasError('required') && !doDuplicatedUsernameExists">username cannot be empty</p>
+      <p class="error-message" *ngIf="doDuplicatedUsernameExists">username already exists</p>
       <p>Full name</p>
       <input class="input" type="text" placeholder="full name" formControlName="name">
+      <p class="error-message" *ngIf="form.get('name').touched && form.get('name').hasError('required')">name cannot be empty</p>
       <p>Password</p>
       <input class="input" type="password" placeholder="password" formControlName="password">
+      <p class="error-message" *ngIf="form.get('password').touched && form.get('password').hasError('required')">password cannot be empty</p>
+      <p class="error-message" *ngIf="form.get('password').touched && form.get('password').hasError('minlength')">password should have a minimum length 6</p>
       <p>Confirm password</p>
       <input class="input" type="password" placeholder="confirm password" formControlName="confirmPassword">
+      <p class="error-message" *ngIf="form.get('confirmPassword').touched && form.get('confirmPassword').value !== form.get('password').value">confirm password is not the same as password</p>
     </div>
-    <button class="signup-button" type="submit" [disabled]="form.invalid">Sign Up</button>
+    <button class="signup-button" type="submit" [disabled]="form.invalid || form.get('confirmPassword').value !== form.get('password').value">Sign Up</button>
   </form>
 </div>
 

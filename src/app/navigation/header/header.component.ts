@@ -14,9 +14,10 @@ import { User } from 'src/app/models/user.model';
 export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('userInfo', null)
   private userInfoElement: ElementRef;
-  private isAuth = false;
+  private isAuth: boolean;
   private showInfoWindow = false;
   private user: User;
+  private projectName = "project 1";
 
   private authStatusListenerSubscription: Subscription;
 
@@ -26,6 +27,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isAuth = this.authService.getAuthStatus();
+    if (this.isAuth) {
+      this.user = this.authService.getUser();
+    }
     this.authStatusListenerSubscription = this.authService.getAuthStatusListener()
       .subscribe(isAuth => {
         this.isAuth = isAuth;

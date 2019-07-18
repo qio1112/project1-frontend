@@ -1,4 +1,14 @@
-<div class="container">
-  <app-data-container class="table" [mode]="'projectLeft'" [name]="'Resource Catalog'"></app-data-container>
-  <app-data-container class="table" [mode]="'projectRight'" [name]="'Project'"></app-data-container>
+<div>
+  <div class="project-list-area">
+    <mat-form-field class="project-list">
+      <!-- <mat-label>Project</mat-label> -->
+      <mat-select [value]="projects ? projects[0].projectName : null">
+        <mat-option *ngFor="let project of projects" [value]="project?.projectName">{{project?.projectName}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="container">
+    <app-data-container class="table" [mode]="'projectLeft'" [name]="'Resource Catalog'"></app-data-container>
+    <app-data-container class="table" [mode]="'projectRight'" [name]="'Project'"></app-data-container>
+  </div>
 </div>

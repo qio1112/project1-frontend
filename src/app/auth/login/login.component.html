@@ -3,13 +3,16 @@
   <form class="form" [formGroup]="form" (submit)="onLogin()">
     <div>
       <p>Username</p>
-      <input class="input" type="email" placeholder="email" formControlName="username">
+      <input class="input" type="email" placeholder="email" formControlName="username" (change)="onChangeLoginInput()">
+      <p class="error-message" *ngIf="form.get('username').touched && form.get('username').hasError('required') && !loginFailed">username cannot be empty</p>
       <p>Password</p>
-      <input class="input" type="password" placeholder="password" formControlName="password">
+      <input class="input" type="password" placeholder="password" formControlName="password" (change)="onChangeLoginInput()">
+      <p class="error-message" *ngIf="form.get('password').touched && form.get('password').hasError('required') && !loginFailed">password cannot be empty</p>
     </div>
     <button class="login-button" type="submit">Login</button>
+    <p class="error-message" *ngIf="loginFailed">Invalid username or password</p>
     <div>
-      <input type="checkbox" name="rememberMe">
+      <input type="checkbox" name="rememberMe" formControlName="rememberMe">
       <label for="rememberMe">Remember me</label>
     </div>
   </form>

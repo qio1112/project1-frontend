@@ -4,6 +4,7 @@
     <img class="icon" src="assets/images/icon.png" alt="icon">
     <p class="name">Resource Management</p>
   </div>
+  <h1 *ngIf="isAuth" class="title">{{projectName}}</h1>
   <!-- <div class="empty"></div> -->
   <div class="buttons">
     <div class="user-container" #userInfo>

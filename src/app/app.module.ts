@@ -21,10 +21,11 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
+import {MatSelectModule} from '@angular/material/select';
 import { InfoWindowComponent } from './navigation/header/info-window/info-window.component';
 import { DataContainerBarComponent } from './data-container/data-container-bar/data-container-bar.component';
 import { AuthService } from './services/auth.service';
-import { ResourceService } from './services/resource.service';
+import { ProjectService } from './services/project.service';
 import { UserService } from './services/user.service';
 import { FormulaService } from './services/formula.service';
 import { TokenInterceptor } from './services/auth-interceptor';
@@ -55,12 +56,13 @@ import { TokenInterceptor } from './services/auth-interceptor';
     MatSidenavModule,
     MatIconModule,
     MatTableModule,
+    MatSelectModule,
     HttpClientModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthService,
-    ResourceService,
+    ProjectService,
     UserService,
     FormulaService
   ],

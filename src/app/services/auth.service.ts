@@ -13,6 +13,9 @@ export class AuthService {
   private isAuthenticated = false;
   private authStatusListener = new Subject<boolean>();
 
+  private expiresIn: number;
+  private tokenTimer: any; // a timer for invalid the stored token
+
   constructor(
     private http: HttpClient,
     private router: Router
@@ -39,39 +42,42 @@ export class AuthService {
   }
 
   // post request to create a new user, sign up
-  createUser(user: User) {
-    console.log(user);
-    this.http.post<User>(this.serverUrl + '/auth/signup', user)
+  createUser(user: User, errorHandler: any) {
+    this.http.post<any>(this.serverUrl + '/auth/signup', user)
       .subscribe(result => {
         console.log(result);
         if (result) {
-          this.user = result;
+          this.user = result.data;
           this.router.navigate(['/login']);
         } else {
           throw new Error('failed to signup');
         }
+      }, error => {
+        errorHandler(error);
       });
   }
 
   // post request to login user
-  loginUser(user: User) {
-    this.http.post<User>(this.serverUrl + '/auth/login', user, {observe: 'response'})
+  loginUser(user: User, errorHandler: any) {
+    this.http.post<any>(this.serverUrl + '/auth/login', user)
       .subscribe(res => {
-        console.log(res);
         // get token from header
-        if (res.headers.get('Authentication')) {
-          this.token = res.headers.get('Authentication').split(' ')[1];
-          this.user = new User(res.body.username, null, res.body.name, new Date(res.body.memberDate));
+        if (res.token) {
+          this.token = res.token;
+          this.expiresIn = +res.expiresIn;
+          this.user = res.data;
           this.authStatusListener.next(true);
           this.isAuthenticated = true;
-          this.saveAuthToken(this.token, this.user);
+
+          const now = new Date();
+          this.saveAuthToken(this.token, this.user, new Date(now.getTime() + this.expiresIn));
+          this.setTokenTimer(this.expiresIn);
           this.router.navigate(['/']);
         }
-        console.log(localStorage.getItem('token'));
       }, error => {
-        console.log(error);
         this.isAuthenticated = false;
         this.authStatusListener.next(false);
+        errorHandler(error);
       });
   }
 
@@ -83,6 +89,7 @@ export class AuthService {
     this.authStatusListener.next(false);
     // remove local storage
     this.removeAuthToken()
+    clearTimeout(this.tokenTimer);
     this.router.navigate(['/login']);
   }
 
@@ -92,19 +99,37 @@ export class AuthService {
     if (!authToken) {
       return ;
     }
-    const username = localStorage.getItem('username');
-    const name = localStorage.getItem('name');
-    const memberDate = +localStorage.getItem('memberDate');
-    this.token = authToken;
-    this.user = new User(username, null, name, new Date(memberDate));
+
+    const now = new Date();
+    const expiration = new Date(localStorage.getItem('expiration'));
+    const expiresIn = expiration.getTime() - now.getTime();
+    if (expiresIn > 0) {
+      this.expiresIn = expiresIn;
+      this.setTokenTimer(this.expiresIn);
+
+      const username = localStorage.getItem('username');
+      const name = localStorage.getItem('name');
+      const memberDate = +localStorage.getItem('memberDate');
+
+      this.token = authToken;
+      this.user = new User(username, null, name, new Date(memberDate));
+      this.authStatusListener.next(true);
+      this.isAuthenticated = true;
+      this.router.navigate(['/resource']);
+    }
+  }
+
+  private setTokenTimer(expiresIn: number) {
+    this.tokenTimer = setTimeout(() => this.logoutUser(), expiresIn);
   }
 
   // save token to local storage
-  private saveAuthToken(token: string, user: User) {
+  private saveAuthToken(token: string, user: User, expiration: Date) {
     localStorage.setItem('token', token);
     localStorage.setItem('username', user.username);
     localStorage.setItem('name', user.name);
-    localStorage.setItem('memberDate', user.memberDate.getMilliseconds().toString());
+    localStorage.setItem('memberDate', user.memberDate.toString());
+    localStorage.setItem('expiration', expiration.toISOString());
   }
 
   // remove jwt from local storage
@@ -113,5 +138,6 @@ export class AuthService {
     localStorage.removeItem('username');
     localStorage.removeItem('name');
     localStorage.removeItem('memberDate');
+    localStorage.removeItem('expiration');
   }
 }
